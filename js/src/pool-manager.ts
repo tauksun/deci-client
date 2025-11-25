@@ -12,8 +12,11 @@ const initiatePool = (socket: string, numberOfConnections: number) => {
   for (let i = 0; i < numberOfConnections; i++) {
     const conn = net.createConnection(socket);
     conn.on("ready", () => {
+      console.log("connection ready");
       pool.push(conn);
+      connEvent.emit("add");
     });
+    ;
   }
 }
 

@@ -55,7 +55,7 @@ const deci = {
   get: ({ key }: GET): Promise<DATA_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
-      const queryParams = [key];
+      const queryParams = ["GET", key];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
@@ -70,7 +70,7 @@ const deci = {
     return new Promise(async (resolve, reject) => {
       // Construct Query
       const timestamp = new Date().getTime();
-      const queryParams = [key, value, timestamp.toString(), sync ? 1 : 0];
+      const queryParams = ["SET", key, value, timestamp.toString(), sync ? 1 : 0];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
@@ -85,7 +85,7 @@ const deci = {
     return new Promise(async (resolve, reject) => {
       // Construct Query
       const timestamp = new Date().getTime();
-      const queryParams = [key, timestamp.toString(), sync ? 1 : 0];
+      const queryParams = ["DEL", key, timestamp.toString(), sync ? 1 : 0];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
@@ -99,7 +99,7 @@ const deci = {
   exists: async ({ key }: EXISTS): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
-      const queryParams = [key];
+      const queryParams = ["EXISTS", key];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
@@ -113,7 +113,7 @@ const deci = {
   gget: async ({ key }: GGET): Promise<DATA_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
-      const queryParams = [key];
+      const queryParams = ["GGET", key];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
@@ -127,7 +127,7 @@ const deci = {
   gset: async ({ key, value }: GSET): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
-      const queryParams = [key, value];
+      const queryParams = ["GSET", key, value];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
@@ -141,7 +141,7 @@ const deci = {
   gdel: async ({ key }: GDEL): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
-      const queryParams = [key];
+      const queryParams = ["GDEL", key];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
@@ -155,7 +155,7 @@ const deci = {
   gexists: async ({ key }: GEXISTS): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
-      const queryParams = [key];
+      const queryParams = ["GEXISTS", key];
       const query = encoder(queryParams);
 
       // Send to LCP & Decode
