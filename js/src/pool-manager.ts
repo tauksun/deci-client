@@ -11,7 +11,9 @@ const connEvent = new EventEmitter();
 const initiatePool = (socket: string, numberOfConnections: number) => {
   for (let i = 0; i < numberOfConnections; i++) {
     const conn = net.createConnection(socket);
-    pool.push(conn);
+    conn.on("ready", () => {
+      pool.push(conn);
+    });
   }
 }
 

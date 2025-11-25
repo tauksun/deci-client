@@ -1,8 +1,8 @@
 import {
-  GET, SET, DEL, EXISTS, GGET, GSET, GDEL,
+  CONNECT, GET, SET, DEL, EXISTS, GGET, GSET, GDEL,
   GEXISTS, NUMERICAL_RESPONSE, DATA_RESPONSE
 } from "./interface";
-import { fetchConnection } from "./pool-manager";
+import { fetchConnection, initiatePool } from "./pool-manager";
 import { encoder } from "./query-encoder";
 import { decoder } from "./response-decoder";
 import { addConnection } from "./pool-manager";
@@ -40,6 +40,18 @@ const writeToLCPAndDecodeResponse = async (query: string,
 }
 
 const deci = {
+  /**
+    * @description 
+    * socket : UNIX Socket Path
+    * pool : Number of connections in pool
+    * */
+  connect: ({ socket, pool }: CONNECT) => {
+    initiatePool(socket, pool);
+  },
+  /**
+    * @description
+    * Fetch value of key from Local Cache
+    **/
   get: ({ key }: GET): Promise<DATA_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -50,6 +62,10 @@ const deci = {
       return writeToLCPAndDecodeResponse(query, resolve, reject,);
     });
   },
+  /**
+    * @description
+    * Set value of key in Local Cache
+    **/
   set: async ({ key, value, sync = true }: SET): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -61,6 +77,10 @@ const deci = {
       return writeToLCPAndDecodeResponse(query, resolve, reject,);
     });
   },
+  /**
+    * @description
+    * Delete value of key in Local Cache
+    **/
   del: async ({ key, sync = true }: DEL): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -72,6 +92,10 @@ const deci = {
       return writeToLCPAndDecodeResponse(query, resolve, reject,);
     });
   },
+  /**
+    * @description
+    * Check if the key exists in Local Cache
+    **/
   exists: async ({ key }: EXISTS): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -82,6 +106,10 @@ const deci = {
       return writeToLCPAndDecodeResponse(query, resolve, reject,);
     });
   },
+  /**
+    * @description
+    * Get the value of key from Global Cache
+    **/
   gget: async ({ key }: GGET): Promise<DATA_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -92,6 +120,10 @@ const deci = {
       return writeToLCPAndDecodeResponse(query, resolve, reject,);
     });
   },
+  /**
+    * @description
+    * Set the value of key in Global Cache
+    **/
   gset: async ({ key, value }: GSET): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -102,6 +134,10 @@ const deci = {
       return writeToLCPAndDecodeResponse(query, resolve, reject,);
     });
   },
+  /**
+    * @description
+    * Delete the value of key in Global Cache
+    **/
   gdel: async ({ key }: GDEL): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -112,6 +148,10 @@ const deci = {
       return writeToLCPAndDecodeResponse(query, resolve, reject,);
     });
   },
+  /**
+    * @description
+    * Check if the key exists in Global Cache
+    **/
   gexists: async ({ key }: GEXISTS): Promise<NUMERICAL_RESPONSE> => {
     return new Promise(async (resolve, reject) => {
       // Construct Query
@@ -125,4 +165,6 @@ const deci = {
 };
 
 
-export default deci;
+export default {
+  deci,
+};

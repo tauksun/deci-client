@@ -1,3 +1,9 @@
+// Configure
+interface CONNECT {
+  socket: string;
+  pool: number;
+}
+
 // Local Cache 
 
 interface GET {
@@ -61,6 +67,6 @@ interface DECODED_RESPONSE {
 }
 
 export {
-  GET, SET, DEL, EXISTS, GGET, GSET, GDEL, GEXISTS,
+  CONNECT, GET, SET, DEL, EXISTS, GGET, GSET, GDEL, GEXISTS,
   NUMERICAL_RESPONSE, DATA_RESPONSE, DECODED_RESPONSE
 }
