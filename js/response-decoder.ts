@@ -10,16 +10,7 @@
  *      error (-)
  * */
 
-interface DecodedResponse {
-  error: {
-    partial: boolean;
-    invalid: boolean;
-    logic: boolean;
-  },
-
-  data?: string | number | null;
-}
-
+import { DECODED_RESPONSE } from "./interface";
 
 const extractLength = (offset: { current: number }, str: string) => {
   let oplen = "";
@@ -37,8 +28,8 @@ const extractLength = (offset: { current: number }, str: string) => {
   return +oplen;
 }
 
-const decoder = (response: string): DecodedResponse => {
-  const decodedResponse: DecodedResponse = {
+const decoder = (response: string): DECODED_RESPONSE => {
+  const decodedResponse: DECODED_RESPONSE = {
     error: {
       partial: false,
       invalid: false,

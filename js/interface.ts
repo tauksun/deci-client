@@ -8,12 +8,12 @@ interface GET {
 interface SET {
   key: string;
   value: string;
-  sync?: number;
+  sync?: boolean;
 };
 
 interface DEL {
   key: string;
-  sync?: number;
+  sync?: boolean;
 };
 
 interface EXISTS {
@@ -50,7 +50,17 @@ interface DATA_RESPONSE {
   data: string | null;
 };
 
+interface DECODED_RESPONSE {
+  error: {
+    partial: boolean;
+    invalid: boolean;
+    logic: boolean;
+  },
+
+  data?: string | number | null;
+}
+
 export {
   GET, SET, DEL, EXISTS, GGET, GSET, GDEL, GEXISTS,
-  NUMERICAL_RESPONSE, DATA_RESPONSE
+  NUMERICAL_RESPONSE, DATA_RESPONSE, DECODED_RESPONSE
 }
