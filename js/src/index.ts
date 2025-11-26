@@ -25,19 +25,17 @@ const writeToLCPAndDecodeResponse = async (query: string,
       return;
     }
 
+    conn.removeListener("data", cb);
     addConnection(conn);
 
     if (decodedResponse.error.logic) {
-      conn.removeListener("data", cb);
       return reject(decodedResponse.data);
     }
 
     if (decodedResponse.error.invalid) {
-      conn.removeListener("data", cb);
       return reject("Invalid response from Deci");
     }
 
-    conn.removeListener("data", cb);
     resolve({
       data: decodedResponse.data
     });
