@@ -58,7 +58,7 @@ const decoder = (response: string): DECODED_RESPONSE => {
       return decodedResponse;
     }
 
-    decodedResponse.data = response.substring(offset.current, strlen);
+    decodedResponse.data = response.substring(offset.current, offset.current + strlen);
     return decodedResponse;
 
   }

@@ -15,28 +15,35 @@ const writeToLCPAndDecodeResponse = async (query: string,
   conn.write(query);
 
   let response = "";
-
-  conn.on("data", (data) => {
-    response += data.toString();
-  });
-
-  conn.on("end", () => {
+  const cb = (data: any) => {
     // Decode Response
+    response += data.toString();
     const decodedResponse = decoder(response);
-    if (decodedResponse.error.logic) {
-      reject(decodedResponse.data);
+
+    if (decodedResponse.error.partial) {
+      // Add to response & return till whole data is parsed
+      return;
     }
 
     addConnection(conn);
 
-    if (decodedResponse.error.invalid) {
-      reject("Invalid response from Deci");
+    if (decodedResponse.error.logic) {
+      conn.removeListener("data", cb);
+      return reject(decodedResponse.data);
     }
 
+    if (decodedResponse.error.invalid) {
+      conn.removeListener("data", cb);
+      return reject("Invalid response from Deci");
+    }
+
+    conn.removeListener("data", cb);
     resolve({
       data: decodedResponse.data
     });
-  });
+  }
+
+  conn.on("data", cb);
 }
 
 const deci = {
