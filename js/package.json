@@ -1,6 +1,6 @@
 {
     "name": "deci",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Provides functions to access Local & Global cache",
     "main": "./dist/index.js",
     "module": "./dist/index.mjs",
